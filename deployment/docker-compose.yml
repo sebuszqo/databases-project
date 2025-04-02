@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    cpus: 2
+    mem_limit: 4g
+
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    cpus: 2
+    mem_limit: 4g
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    cpus: 2
+    mem_limit: 4g
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    cpus: 2
+    mem_limit: 4g
+
