@@ -17,11 +17,11 @@ def import_csv_to_db(engine, table_name, file_path):
 
 def import_mariadb_data():
     data_files = {
-        "transactions": "transactions.csv",
-        "loans": "loans.csv",
-        "clients": "clients.csv",
-        "cards": "cards.csv",
-        "accounts": "accounts.csv",
+        "transactions": "data/transactions.csv",
+        "loans": "data/loans.csv",
+        "clients": "data/clients.csv",
+        "cards": "data/cards.csv",
+        "accounts": "data/accounts.csv",
     }
 
     for table, file in data_files.items():
