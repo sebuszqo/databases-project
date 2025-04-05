@@ -27,6 +27,25 @@ result = cursor.fetchone()
 print(f"Liczba transakcji credytowych klienta o ID = 1 wynosi: {result}. Czas wykonanai operacji: {e-s}s")
 
 
+clients_with_multiple_high_balance_accounts = """
+    SELECT COUNT(*) 
+    FROM (
+        SELECT c.client_id
+        FROM clients c
+        JOIN accounts a ON c.client_id = a.client_id
+        WHERE a.balance > 50000
+        GROUP BY c.client_id
+        HAVING COUNT(a.account_id) > 1
+    ) AS subquery;
+"""
+s = time.time()
+cursor.execute(clients_with_multiple_high_balance_accounts)
+e = time.time()
+result = cursor.fetchone()
+print(result)
+print(f"Zapytanie wykonane w {e - s:.4f} sekundy.")
+
+
 # Zamknięcie połączenia
 cursor.close()
 conn.close()

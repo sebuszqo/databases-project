@@ -1,31 +1,39 @@
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 import time
 
 # Konfiguracja połączenia MariaDB
 MARIADB_CONN = "mysql+pymysql://user:pass@localhost:3306/testdb"
-
-# Tworzenie silnika MariaDB
 mariadb_engine = create_engine(MARIADB_CONN)
 
-def import_csv_to_db(engine, table_name, file_path):
+def insert_csv_to_db(engine, table_name, file_path):
     start_time = time.time()
     df = pd.read_csv(file_path)
-    df.to_sql(table_name, engine, if_exists='replace', index=False)
+
+    # Przygotuj listę kolumn do inserta
+    columns = df.columns.tolist()
+    placeholders = ', '.join([':%s' % col for col in columns])
+    column_names = ', '.join([f"`{col}`" for col in columns])
+    insert_sql = f"INSERT INTO `{table_name}` ({column_names}) VALUES ({placeholders})"
+  
+    with engine.begin() as conn:  # użycie transakcji
+        for _, row in df.iterrows():
+            conn.execute(text(insert_sql), row.to_dict())
+
     elapsed_time = time.time() - start_time
     print(f"Dane z {file_path} zaimportowane do tabeli {table_name} w {elapsed_time:.2f} sekundy.")
 
 def import_mariadb_data():
     data_files = {
-        "transactions": "data/transactions.csv",
-        "loans": "data/loans.csv",
-        "clients": "data/clients.csv",
-        "cards": "data/cards.csv",
-        "accounts": "data/accounts.csv",
-    }
+    "clients": "data/clients.csv",
+    "accounts": "data/accounts.csv",
+    "transactions": "data/transactions.csv",
+    "cards": "data/cards.csv",
+    "loans": "data/loans.csv",
+}
 
     for table, file in data_files.items():
-        import_csv_to_db(mariadb_engine, table, file)
+        insert_csv_to_db(mariadb_engine, table, file)
 
 if __name__ == "__main__":
     import_mariadb_data()
