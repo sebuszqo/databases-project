@@ -7,6 +7,8 @@ services:
       POSTGRES_DB: testdb
     ports:
       - "5432:5432"
+    volumes:
+      - ../postgreSQL/init:/docker-entrypoint-initdb.d
     cpus: 2
     mem_limit: 4g
 
