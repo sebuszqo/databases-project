@@ -70,5 +70,6 @@ def main():
     print(f"Maksymalny czas: {max(times):.4f} s")
     print(f"Wszystkie czasy: {[round(t, 4) for t in times]}")
 
+
 if __name__ == "__main__":
     main()
