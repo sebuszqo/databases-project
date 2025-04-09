@@ -21,6 +21,8 @@ services:
       MYSQL_PASSWORD: pass
     ports:
       - "3306:3306"
+    volumes:
+      - ../mariaDB/init:/docker-entrypoint-initdb.d
     cpus: 2
     mem_limit: 4g
 
