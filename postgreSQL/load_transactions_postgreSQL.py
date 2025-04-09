@@ -13,7 +13,7 @@ DB_CONFIG = {
 }
 
 CSV_FILE = '../data/transactions.csv'
-REPEAT_COUNT = 100
+REPEAT_COUNT = 1
 TABLE_NAME = 'transactions'
 
 def read_csv(file_path):

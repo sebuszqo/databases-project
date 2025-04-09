@@ -5,18 +5,17 @@ import statistics
 import sys
 import os
 
-# Parametry (można je edytować poniżej lub podawać jako argumenty)
 DB_CONFIG = {
     'user': 'user',
     'password': 'pass',
-    'host': '127.0.0.1',  # 👈 wymusza TCP
+    'host': '127.0.0.1',
     'port': 3306,
     'database': 'testdb'
 }
 
-TABLE_NAME = 'cards'
+TABLE_NAME = 'transactions'
 CSV_FILE = f'../data/{TABLE_NAME}.csv'
-REPEAT_COUNT = 500
+REPEAT_COUNT = 1
 
 def read_csv(file_path):
     with open(file_path, newline='') as csvfile:
