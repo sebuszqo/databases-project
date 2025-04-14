@@ -22,29 +22,47 @@ def main():
     conn_pg = psycopg2.connect(**DB_CONFIG_POSTGRES)
 
     queries = [
-        ("SELECT * FROM clients LIMIT 100;", "Proste zapytanie SELECT z LIMIT"),
-        ("SELECT * FROM clients WHERE client_id = 1;", "Proste zapytanie SELECT z WHERE"),
-        ("""
-        SELECT clients.first_name, clients.last_name, accounts.account_number
-        FROM clients
-        JOIN accounts ON clients.client_id = accounts.client_id
-        """, "Zapytanie SELECT z JOIN"),
-        ("SELECT COUNT(*) FROM clients;", "Zapytanie SELECT z COUNT"),
-        ("SELECT AVG(balance) FROM accounts;", "Zapytanie SELECT z AVG"),
-        ("""
-        SELECT clients.first_name, clients.last_name, accounts.account_number
-        FROM clients
-        JOIN accounts ON clients.client_id = accounts.client_id
-        WHERE accounts.balance > 1000
-        ORDER BY accounts.balance DESC;
-        """, "Zaawansowane zapytanie z WHERE + ORDER BY"),
-        ("""
-        SELECT transactions.transaction_id, transactions.amount, accounts.account_number
-        FROM transactions
-        JOIN accounts ON transactions.account_id = accounts.account_id
-        WHERE transactions.transaction_date > '2023-01-01'
-        ORDER BY transactions.transaction_date DESC;
-        ""","Zapytanie SELECT z JOIN")
+        # ("SELECT * FROM clients LIMIT 100;", "Proste zapytanie SELECT z LIMIT"),
+        # ("SELECT * FROM clients WHERE client_id = 1;", "Proste zapytanie SELECT z WHERE"),
+        # ("""
+        # SELECT clients.first_name, clients.last_name, accounts.account_number
+        # FROM clients
+        # JOIN accounts ON clients.client_id = accounts.client_id
+        # """, "Zapytanie SELECT z JOIN"),
+        # ("SELECT COUNT(*) FROM clients;", "Zapytanie SELECT z COUNT"),
+        # ("SELECT AVG(balance) FROM accounts;", "Zapytanie SELECT z AVG"),
+        # ("""
+        # SELECT clients.first_name, clients.last_name, accounts.account_number
+        # FROM clients
+        # JOIN accounts ON clients.client_id = accounts.client_id
+        # WHERE accounts.balance > 1000
+        # ORDER BY accounts.balance DESC;
+        # """, "Zaawansowane zapytanie z WHERE + ORDER BY"),
+        # ("""
+        # SELECT transactions.transaction_id, transactions.amount, accounts.account_number
+        # FROM transactions
+        # JOIN accounts ON transactions.account_id = accounts.account_id
+        # WHERE transactions.transaction_date > '2023-01-01'
+        # ORDER BY transactions.transaction_date DESC;
+        # ""","Zapytanie SELECT z JOIN"),
+        ("""SELECT COUNT(*) 
+        FROM (
+            SELECT c.client_id
+            FROM clients c
+            JOIN accounts a ON c.client_id = a.client_id
+            WHERE a.balance > 50000
+            GROUP BY c.client_id
+            HAVING COUNT(a.account_id) > 1
+        ) AS subquery;
+        ""","Zliczanie liczby klientów z więcej niż jednym kontem i saldem powyżej 50000"),
+        ("""SELECT c.client_id, COUNT(t.transaction_id)
+            FROM transactions AS t
+            JOIN accounts AS a ON t.account_id = a.account_id
+            JOIN clients AS c ON c.client_id = a.client_id
+            WHERE c.client_id BETWEEN 2000 AND 3000
+            AND t.transaction_type = 'credit'
+            GROUP BY c.client_id;
+        ""","Zliczanie liczby transakcji dla klientów o ID 2000 - 3000")
     ]
 
 
