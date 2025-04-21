@@ -50,7 +50,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import statistics
 
-data = {
+# SELECTS
+data_select = {
     "engine": [
         "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", 
         "MariaDB", "MariaDB", "MariaDB", "MariaDB", "MariaDB", "MariaDB", "MariaDB",  "MariaDB", "MariaDB",
@@ -58,25 +59,25 @@ data = {
         # "Redis", "Redis", "Redis", "Redis", "Redis", "Redis", "Redis", "Redis", "Redis",
     ],
     "query": [
-        "Pobranie 100 pierwszych rekordów z tabeli clients.",
-        "Pobranie danych klienta o client_id = 1 z tabeli clients.",
-        "Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
-        "Uzyskanie liczby wszystkich rekordów w tabeli clients.",
-        "Obliczenie średniego stanu konta w tabeli accounts.",
-        "Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
-        "Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
-        "Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
-        "Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
+        "1. Pobranie 100 pierwszych rekordów z tabeli clients.",
+        "2. Pobranie danych klienta o client_id = 1 z tabeli clients.",
+        "3. Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
+        "4. Uzyskanie liczby wszystkich rekordów w tabeli clients.",
+        "5. Obliczenie średniego stanu konta w tabeli accounts.",
+        "6. Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
+        "7. Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
+        "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
+        "9. Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
         
-        "Pobranie 100 pierwszych rekordów z tabeli clients.",
-        "Pobranie danych klienta o client_id = 1 z tabeli clients.",
-        "Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
-        "Uzyskanie liczby wszystkich rekordów w tabeli clients.",
-        "Obliczenie średniego stanu konta w tabeli accounts.",
-        "Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
-        "Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
-        "Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
-        "Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
+        "1. Pobranie 100 pierwszych rekordów z tabeli clients.",
+        "2. Pobranie danych klienta o client_id = 1 z tabeli clients.",
+        "3. Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
+        "4. Uzyskanie liczby wszystkich rekordów w tabeli clients.",
+        "5. Obliczenie średniego stanu konta w tabeli accounts.",
+        "6. Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
+        "7. Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
+        "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
+        "9. Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
         
         # "Pobranie 100 pierwszych rekordów z tabeli clients.",
         # "Pobranie danych klienta o client_id = 1 z tabeli clients.",
@@ -118,10 +119,117 @@ data = {
     ]
 }
 
+# UPDATES
+data_update = {
+    "engine": [
+        "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", 
+        "MariaDB", "MariaDB", "MariaDB", "MariaDB", "MariaDB",
+        # "MongoDB", "MongoDB", "MongoDB", "MongoDB", "MongoDB", 
+        # "Redis", "Redis", "Redis", "Redis", "Redis",
+    ],
+    "query": [
+        "1. Aktualizacja jednego pola dla klienta o konkretnym client_id.",
+        "2. Zmiana first_name dla wielu klientów.",
+        "3. Aktualizacja salda konta z użyciem JOIN z tabelą clients.",
+        "4. Aktualizacja salda konta na podstawie średniego salda wszystkich kont.",
+        "5. Aktualizacja adresu e-mail na podstawie subzapytania z transakcjami i saldem powyżej 1000.",
+        
+        "1. Aktualizacja jednego pola dla klienta o konkretnym client_id.",
+        "2. Zmiana first_name dla wielu klientów.",
+        "3. Aktualizacja salda konta z użyciem JOIN z tabelą clients.",
+        "4. Aktualizacja salda konta na podstawie średniego salda wszystkich kont.",
+        "5. Aktualizacja adresu e-mail na podstawie subzapytania z transakcjami i saldem powyżej 1000.",
+        
+        # NOSQL 1
+        # "1. Aktualizacja jednego pola dla klienta o konkretnym client_id.",
+        # "2. Zmiana first_name dla wielu klientów.",
+        # "3. Aktualizacja salda konta z użyciem JOIN z tabelą clients.",
+        # "4. Aktualizacja salda konta na podstawie średniego salda wszystkich kont.",
+        # "5. Aktualizacja adresu e-mail na podstawie subzapytania z transakcjami i saldem powyżej 1000.",
+        
+        # NOSQL 2
+        #  "1. Aktualizacja jednego pola dla klienta o konkretnym client_id.",
+        # "2. Zmiana first_name dla wielu klientów.",
+        # "3. Aktualizacja salda konta z użyciem JOIN z tabelą clients.",
+        # "4. Aktualizacja salda konta na podstawie średniego salda wszystkich kont.",
+        # "5. Aktualizacja adresu e-mail na podstawie subzapytania z transakcjami i saldem powyżej 1000.",
+    ],
+    "avg_time": [
+        0.0009, 0.0008, 0.3727, 0.0941, 0.7795, 
+        0.0007, 0.0006, 0.1864,  0.0195, 0.3281,
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795, # NOSQL1
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795,  # NOSQL2
+    ],
+    "min_time": [
+        0.0007,  0.0006, 0.3195, 0.0842, 0.4919,
+        0.0005, 0.0005, 0.1667, 0.0183, 0.2962,
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795, # NOSQL1
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795,  # NOSQL2
+    ],
+    "max_time": [
+        0.0076, 0.0021, 0.5581, 0.1234, 1.1961,
+        0.0037, 0.0018, 0.2667, 0.0346, 0.5525,
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795, # NOSQL1
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795,  # NOSQL2
+    ]
+}
+
+data_delete = {
+    "engine": [
+        "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", 
+        "MariaDB", "MariaDB", "MariaDB", "MariaDB", "MariaDB",
+        # "MongoDB", "MongoDB", "MongoDB", "MongoDB", "MongoDB", 
+        # "Redis", "Redis", "Redis", "Redis", "Redis",
+    ],
+    "query": [
+        "1. Usunięcie klienta o client_id = 1.",
+        "2. Usunięcie transakcji powiązanych z klientem:",
+        "3. Usunięcie kont o saldzie powyżej 1000.",
+        "4. Usunięcie klientów bez transakcji.",
+        
+        "1. Usunięcie klienta o client_id = 1.",
+        "2. Usunięcie transakcji powiązanych z klientem:",
+        "3. Usunięcie kont o saldzie powyżej 1000.",
+        "4. Usunięcie klientów bez transakcji.",
+        
+        # NOSQL 1
+        # "1. Usunięcie klienta o client_id = 1.",
+        # "2. Usunięcie transakcji powiązanych z klientem:",
+        # "3. Usunięcie kont o saldzie powyżej 1000.",
+        # "4. Usunięcie klientów bez transakcji.",
+        
+        # NOSQL 2
+        # "1. Usunięcie klienta o client_id = 1.",
+        # "2. Usunięcie transakcji powiązanych z klientem:",
+        # "3. Usunięcie kont o saldzie powyżej 1000.",
+        # "4. Usunięcie klientów bez transakcji.",
+    ],
+    "avg_time": [
+        # 0.0007,
+        0.0015, 0.1682
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795, # NOSQL1
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795,  # NOSQL2
+    ],
+    "min_time": [
+        # 0.0005,
+        0.0009, 0.1625
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795, # NOSQL1
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795,  # NOSQL2
+    ],
+    "max_time": [
+        # 0.0
+        0.0036, 0.2158
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795, # NOSQL1
+        # 0.0009, 0.0008, 0.3727, 0.0941, 0.7795,  # NOSQL2
+    ]
+}
 
 
+# SELECT 
+# df = pd.DataFrame(data_select)
 
-df = pd.DataFrame(data)
+# UPDATE
+df = pd.DataFrame(data_update)
 
 def plot_query_times(df):
     queries = df['query'].unique()
@@ -136,12 +244,12 @@ def plot_query_times(df):
                 engine_data['engine'], 
                 engine_data['avg_time'], 
                 yerr=[engine_data['avg_time'] - engine_data['min_time'], engine_data['max_time'] - engine_data['avg_time']],
-                label=f'{engine} - {query}', 
+                label=f'{engine}', 
                 marker='o', 
                 capsize=10
             )
 
-        plt.title(f"Czas wykonania zapytań {query}")
+        plt.title(f"{query}")
         plt.xlabel("Silnik")
         plt.ylabel("Czas [s]")
         plt.grid(True)
