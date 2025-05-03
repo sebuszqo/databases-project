@@ -22,29 +22,29 @@ def main():
     conn_mariadb = mariadb.connect(**DB_CONFIG)
 
     queries = [
-        # ("SELECT * FROM clients LIMIT 100;", "Proste zapytanie SELECT z LIMIT"),
-        # ("SELECT * FROM clients WHERE client_id = 1;", "Proste zapytanie SELECT z WHERE"),
-        # ("""
-        # SELECT clients.first_name, clients.last_name, accounts.account_number
-        # FROM clients
-        # JOIN accounts ON clients.client_id = accounts.client_id
-        # """, "Zapytanie SELECT z JOIN"),
-        # ("SELECT COUNT(*) FROM clients;", "Zapytanie SELECT z COUNT"),
-        # ("SELECT AVG(balance) FROM accounts;", "Zapytanie SELECT z AVG"),
-        # ("""
-        # SELECT clients.first_name, clients.last_name, accounts.account_number
-        # FROM clients
-        # JOIN accounts ON clients.client_id = accounts.client_id
-        # WHERE accounts.balance > 1000
-        # ORDER BY accounts.balance DESC;
-        # """, "Zaawansowane zapytanie z WHERE + ORDER BY"),
-        # ("""
-        # SELECT transactions.transaction_id, transactions.amount, accounts.account_number
-        # FROM transactions
-        # JOIN accounts ON transactions.account_id = accounts.account_id
-        # WHERE transactions.transaction_date > '2023-01-01'
-        # ORDER BY transactions.transaction_date DESC;
-        # ""","Zapytanie SELECT z JOIN"),
+        ("SELECT * FROM clients LIMIT 100;", "Proste zapytanie SELECT z LIMIT"),
+        ("SELECT * FROM clients WHERE client_id = 1;", "Proste zapytanie SELECT z WHERE"),
+        ("""
+        SELECT clients.first_name, clients.last_name, accounts.account_number
+        FROM clients
+        JOIN accounts ON clients.client_id = accounts.client_id
+        """, "Zapytanie SELECT z JOIN"),
+        ("SELECT COUNT(*) FROM clients;", "Zapytanie SELECT z COUNT"),
+        ("SELECT AVG(balance) FROM accounts;", "Zapytanie SELECT z AVG"),
+        ("""
+        SELECT clients.first_name, clients.last_name, accounts.account_number
+        FROM clients
+        JOIN accounts ON clients.client_id = accounts.client_id
+        WHERE accounts.balance > 1000
+        ORDER BY accounts.balance DESC;
+        """, "Zaawansowane zapytanie z WHERE + ORDER BY"),
+        ("""
+        SELECT transactions.transaction_id, transactions.amount, accounts.account_number
+        FROM transactions
+        JOIN accounts ON transactions.account_id = accounts.account_id
+        WHERE transactions.transaction_date > '2023-01-01'
+        ORDER BY transactions.transaction_date DESC;
+        ""","Zapytanie SELECT z JOIN"),
         ("""SELECT COUNT(*) 
         FROM (
             SELECT c.client_id
