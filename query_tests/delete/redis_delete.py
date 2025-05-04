@@ -23,8 +23,11 @@ def main():
         (lambda: [
             r.delete(key.decode())
             for key in r.scan_iter("account:*")
-            if r.hget(f"client:{r.hget(key, 'client_id').decode()}", "email").decode().endswith("@example.com")
+            if r.hget(key, "client_id") is not None and
+            r.hget(f"client:{r.hget(key, 'client_id').decode()}", "email") is not None and
+            r.hget(f"client:{r.hget(key, 'client_id').decode()}", "email").decode().endswith("@example.com")
         ], "DELETE z JOIN"),
+
 
         # 4. DELETE transakcji sprzed 2023
         (lambda: [
