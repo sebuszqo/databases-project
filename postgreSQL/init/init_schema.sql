@@ -12,7 +12,7 @@ CREATE TABLE accounts (
     client_id INT,
     account_number VARCHAR(50),
     balance DECIMAL(15,2),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id)
+    FOREIGN KEY (client_id) REFERENCES clients(client_id) ON DELETE CASCADE
 );
 
 -- 3. Tabela transakcji
@@ -22,7 +22,7 @@ CREATE TABLE transactions (
     amount DECIMAL(15,2),
     transaction_type VARCHAR(50),
     transaction_date DATE,
-    FOREIGN KEY (account_id) REFERENCES accounts(account_id)
+    FOREIGN KEY (account_id) REFERENCES accounts(account_id) ON DELETE CASCADE
 );
 
 -- 4. Tabela kart
@@ -31,7 +31,7 @@ CREATE TABLE cards (
     account_id INT,
     card_number VARCHAR(50),
     expiry_date DATE,
-    FOREIGN KEY (account_id) REFERENCES accounts(account_id)
+    FOREIGN KEY (account_id) REFERENCES accounts(account_id) ON DELETE CASCADE
 );
 
 -- 5. Tabela kredytów
@@ -41,7 +41,5 @@ CREATE TABLE loans (
     loan_amount DECIMAL(15,2),
     interest_rate DECIMAL(5,2),
     loan_date DATE,
-    FOREIGN KEY (client_id) REFERENCES clients(client_id)
+    FOREIGN KEY (client_id) REFERENCES clients(client_id) ON DELETE CASCADE
 );
-
-
