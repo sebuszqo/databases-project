@@ -14,28 +14,62 @@ def run_mongo_delete(operation):
 
 def main():
     deletes = [
-        # 1
-        (lambda: col.delete_one({"client_id": 1}), "Prosty DELETE"),
-        # 2
-        (lambda: col.delete_many({"client_id": {"$in": [1, 2, 3, 4, 5]}}), "DELETE wielu rekordów"),
-        # 3
-        (lambda: col.update_many(
-            {"email": {"$regex": "@example.com$"}},
-            {"$pull": {"accounts": {}}}
-        ), "DELETE z JOIN (czyści konta klientów z emailem *.example.com)"),
-        # 4
-        (lambda: col.update_many(
-            {},
-            {"$pull": {"accounts.$[].transactions": {"transaction_date": {"$lt": "2023-01-01"}}}}
-        ), "DELETE z warunkiem po dacie (transakcje)"),
-        # 5
-        (lambda: col.delete_many({
-            "$expr": {
-                "$gt": [
-                    {"$size": "$accounts"}, 2
-                ]
-            }
-        }), "DELETE z GROUP BY i HAVING (klienci z >2 kontami)")
+        # 1. Usunięcie klienta o client_id = 1
+        (
+            lambda: col.delete_one({"client_id": 1}),
+            "1. Usunięcie klienta o client_id = 1."
+        ),
+
+        # 2. Usunięcie transakcji powiązanych z klientem
+        (
+            lambda: (
+                lambda client: col.update_one(
+                    {"client_id": 1},
+                    {"$set": {
+                        "accounts": [
+                            {**acc, "transactions": []}
+                            for acc in client.get("accounts", [])
+                        ]
+                    }}
+                ) if client else None
+            )(col.find_one({"client_id": 1})),
+            "2. Usunięcie transakcji powiązanych z klientem:"
+        ),
+
+        # 3. Usunięcie kont o saldzie powyżej 1000
+        (
+            lambda: col.update_many(
+                {},
+                {"$pull": {"accounts": {"balance": {"$gt": 1000}}}}
+            ),
+            "3. Usunięcie kont o saldzie powyżej 1000."
+        ),
+
+        # 4. Usunięcie klientów bez transakcji
+        (
+            lambda: col.delete_many({
+                "$expr": {
+                    "$eq": [
+                        {
+                            "$size": {
+                                "$filter": {
+                                    "input": {
+                                        "$reduce": {
+                                            "input": "$accounts",
+                                            "initialValue": [],
+                                            "in": {"$concatArrays": ["$$value", "$$this.transactions"]}
+                                        }
+                                    },
+                                    "as": "t",
+                                    "cond": {"$ne": ["$$t", None]}
+                                }
+                            }
+                        }, 0
+                    ]
+                }
+            }),
+            "4. Usunięcie klientów bez transakcji."
+        )
     ]
 
     for delete_fn, desc in deletes:
@@ -59,3 +93,4 @@ def print_stats(desc, times):
 
 if __name__ == "__main__":
     main()
+

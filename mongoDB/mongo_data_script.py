@@ -8,11 +8,11 @@ def load_csv(file_name):
     return pd.read_csv(file_name).to_dict(orient="records")
 
 print("Rozpoczęcie procesu strukturyzacji danych...")
-dict_clients = load_csv("clients.csv")
-dict_accounts = load_csv("accounts.csv")
-dict_cards = load_csv("cards.csv")
-dict_loans = load_csv("loans.csv")
-dict_transactions = load_csv("transactions.csv")
+dict_clients = load_csv("data/clients.csv")
+dict_accounts = load_csv("data/accounts.csv")
+dict_cards = load_csv("data/cards.csv")
+dict_loans = load_csv("data/loans.csv")
+dict_transactions = load_csv("data/transactions.csv")
 
 print("Tworzenie indeksów dla szybszego wyszukiwania...")
 accounts_map = {acc["account_id"]: acc for acc in dict_accounts}

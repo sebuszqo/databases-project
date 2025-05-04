@@ -13,39 +13,45 @@ def run_redis_delete(fn):
 
 def main():
     deletes = [
-        # 1. DELETE client:1
-        (lambda: r.delete("client:1"), "Prosty DELETE"),
+        # 1. Usunięcie klienta o client_id = 1
+        (
+            lambda: r.delete("client:1"),
+            "1. Usunięcie klienta o client_id = 1."
+        ),
 
-        # 2. DELETE client:{1-5}
-        (lambda: [r.delete(f"client:{i}") for i in [1, 2, 3, 4, 5]], "DELETE wielu rekordów"),
+        # 2. Usunięcie transakcji powiązanych z klientem
+        (
+            lambda: [
+                r.delete(f"transactions:{r.hget(acc_key, 'account_id').decode()}")
+                for acc_key in r.scan_iter("account:*")
+                if r.hget(acc_key, "client_id") == b"1"
+            ],
+            "2. Usunięcie transakcji powiązanych z klientem:"
+        ),
 
-        # 3. DELETE kont klientów z emailem @example.com
-        (lambda: [
-            r.delete(key.decode())
-            for key in r.scan_iter("account:*")
-            if r.hget(key, "client_id") is not None and
-            r.hget(f"client:{r.hget(key, 'client_id').decode()}", "email") is not None and
-            r.hget(f"client:{r.hget(key, 'client_id').decode()}", "email").decode().endswith("@example.com")
-        ], "DELETE z JOIN"),
+        # 3. Usunięcie kont o saldzie powyżej 1000
+        (
+            lambda: [
+                r.delete(key.decode())
+                for key in r.scan_iter("account:*")
+                if float(r.hget(key, "balance") or 0) > 1000
+            ],
+            "3. Usunięcie kont o saldzie powyżej 1000."
+        ),
 
-
-        # 4. DELETE transakcji sprzed 2023
-        (lambda: [
-            r.delete(key.decode())
-            if all(json.loads(t)["transaction_date"] < "2023-01-01" for t in r.lrange(key, 0, -1))
-            else r.ltrim(key, 0, -1)  # clear list
-            for key in r.scan_iter("transactions:*")
-        ], "DELETE z warunkiem po dacie"),
-
-        # 5. DELETE klientów z więcej niż 2 kontami
-        (lambda: [
-            r.delete(f"client:{client_id.decode()}")
-            for client_id in r.scan_iter("client:*")
-            if len([
-                key for key in r.scan_iter("account:*")
-                if r.hget(key, "client_id") == client_id
-            ]) > 2
-        ], "DELETE z GROUP BY i HAVING")
+        # 4. Usunięcie klientów bez transakcji
+        (
+            lambda: [
+                r.delete(client_key.decode())
+                for client_key in r.scan_iter("client:*")
+                if not any(
+                    r.exists(f"transactions:{r.hget(acc_key, 'account_id').decode()}")
+                    for acc_key in r.scan_iter("account:*")
+                    if r.hget(acc_key, "client_id") == client_key.split(b":")[1]
+                )
+            ],
+            "4. Usunięcie klientów bez transakcji."
+        )
     ]
 
     for delete_fn, desc in deletes:

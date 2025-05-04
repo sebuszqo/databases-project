@@ -75,7 +75,28 @@ def main():
                 "amount": "$accounts.transactions.amount",
                 "account_number": "$accounts.account_number"
             }}
-        ], "Zapytanie SELECT z JOIN (transactions)")
+        ], "Zapytanie SELECT z JOIN (transactions)"),
+                # 8. Klienci z >1 kontem i saldem >50k
+        ([
+            {"$unwind": "$accounts"},
+            {"$match": {"accounts.balance": {"$gt": 50000}}},
+            {"$group": {"_id": "$client_id", "count": {"$sum": 1}}},
+            {"$match": {"count": {"$gt": 1}}},
+            {"$count": "qualified_clients"}
+        ], "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000."),
+
+        # 9. Zliczenie transakcji typu credit dla client_id 2000–3000
+        ([
+            {"$match": {"client_id": {"$gte": 2000, "$lte": 3000}}},
+            {"$unwind": "$accounts"},
+            {"$unwind": "$accounts.transactions"},
+            {"$match": {"accounts.transactions.transaction_type": "credit"}},
+            {"$group": {
+                "_id": "$client_id",
+                "count": {"$sum": 1}
+            }}
+        ], "9. Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.")
+
     ]
 
     for pipeline, description in queries:
