@@ -13,90 +13,90 @@ def run_redis_query(fn):
 
 def main():
     queries = [
-        # 1. Proste SELECT z LIMIT
-        (
-            lambda: [r.hgetall(f"client:{i}") for i in range(1, 101)],
-            "1. Proste zapytanie SELECT z LIMIT"
-        ),
+        # # 1. Proste SELECT z LIMIT
+        # (
+        #     lambda: [r.hgetall(f"client:{i}") for i in range(1, 101)],
+        #     "1. Proste zapytanie SELECT z LIMIT"
+        # ),
 
-        # 2. SELECT z WHERE
-        (
-            lambda: r.hgetall("client:1"),
-            "2. Proste zapytanie SELECT z WHERE"
-        ),
+        # # 2. SELECT z WHERE
+        # (
+        #     lambda: r.hgetall("client:1"),
+        #     "2. Proste zapytanie SELECT z WHERE"
+        # ),
 
-        # 3. JOIN client -> account
-        (
-            lambda: [
-                {
-                    **r.hgetall(f"client:{r.hget(acc_key, 'client_id').decode()}"),
-                    "account_number": r.hget(acc_key, "account_number").decode()
-                }
-                for acc_key in r.scan_iter("account:*")
-                if r.hget(acc_key, "client_id")
-            ],
-            "3. Zapytanie SELECT z JOIN"
-        ),
+        # # 3. JOIN client -> account
+        # (
+        #     lambda: [
+        #         {
+        #             **r.hgetall(f"client:{r.hget(acc_key, 'client_id').decode()}"),
+        #             "account_number": r.hget(acc_key, "account_number").decode()
+        #         }
+        #         for acc_key in r.scan_iter("account:*")
+        #         if r.hget(acc_key, "client_id")
+        #     ],
+        #     "3. Zapytanie SELECT z JOIN"
+        # ),
 
-        # 4. COUNT klientów
-        (
-            lambda: len(list(r.scan_iter("client:*"))),
-            "4. Zapytanie SELECT z COUNT"
-        ),
+        # # 4. COUNT klientów
+        # (
+        #     lambda: len(list(r.scan_iter("client:*"))),
+        #     "4. Zapytanie SELECT z COUNT"
+        # ),
 
         # 5. AVG(balance)
-        (
-            lambda: (
-                lambda accs: sum(accs) / len(accs)
-                if accs else 0
-            )([
-                float(r.hget(acc_key, "balance") or 0)
-                for acc_key in r.scan_iter("account:*")
-                if r.hexists(acc_key, "balance")
-            ]),
-            "5. Zapytanie SELECT z AVG"
-        ),
+        # (
+        #     lambda: (
+        #         lambda accs: sum(accs) / len(accs)
+        #         if accs else 0
+        #     )([
+        #         float(r.hget(acc_key, "balance") or 0)
+        #         for acc_key in r.scan_iter("account:*")
+        #         if r.hexists(acc_key, "balance")
+        #     ]),
+        #     "5. Zapytanie SELECT z AVG"
+        # ),
 
-        # 6. JOIN + WHERE + ORDER
-        (
-            lambda: sorted([
-                {
-                    "client": r.hgetall(f"client:{r.hget(acc_key, 'client_id').decode()}"),
-                    "account_number": r.hget(acc_key, "account_number").decode(),
-                    "balance": float(r.hget(acc_key, "balance"))
-                }
-                for acc_key in r.scan_iter("account:*")
-                if float(r.hget(acc_key, "balance") or 0) > 1000
-            ], key=lambda x: -x["balance"]),
-            "6. Zaawansowane zapytanie z WHERE + ORDER BY"
-        ),
+        # # 6. JOIN + WHERE + ORDER
+        # (
+        #     lambda: sorted([
+        #         {
+        #             "client": r.hgetall(f"client:{r.hget(acc_key, 'client_id').decode()}"),
+        #             "account_number": r.hget(acc_key, "account_number").decode(),
+        #             "balance": float(r.hget(acc_key, "balance"))
+        #         }
+        #         for acc_key in r.scan_iter("account:*")
+        #         if float(r.hget(acc_key, "balance") or 0) > 1000
+        #     ], key=lambda x: -x["balance"]),
+        #     "6. Zaawansowane zapytanie z WHERE + ORDER BY"
+        # ),
 
-        # 7. JOIN: transactions po dacie
-        (
-            lambda: sorted([
-                {
-                    "transaction_id": json.loads(tr)["transaction_id"],
-                    "amount": json.loads(tr)["amount"],
-                    "account_number": r.hget(acc_key, "account_number").decode()
-                }
-                for acc_key in r.scan_iter("account:*")
-                for tr in r.lrange(f"transactions:{r.hget(acc_key, 'account_id').decode()}", 0, -1)
-                if json.loads(tr)["transaction_date"] > "2023-01-01"
-            ], key=lambda x: x["transaction_id"], reverse=True),
-            "7. Zapytanie SELECT z JOIN (transactions)"
-        ),
+        # # 7. JOIN: transactions po dacie
+        # (
+        #     lambda: sorted([
+        #         {
+        #             "transaction_id": json.loads(tr)["transaction_id"],
+        #             "amount": json.loads(tr)["amount"],
+        #             "account_number": r.hget(acc_key, "account_number").decode()
+        #         }
+        #         for acc_key in r.scan_iter("account:*")
+        #         for tr in r.lrange(f"transactions:{r.hget(acc_key, 'account_id').decode()}", 0, -1)
+        #         if json.loads(tr)["transaction_date"] > "2023-01-01"
+        #     ], key=lambda x: x["transaction_id"], reverse=True),
+        #     "7. Zapytanie SELECT z JOIN (transactions)"
+        # ),
 
-        # 8. Klienci z >1 kontem i saldem > 50000
-        (
-            lambda: sum(
-                1 for client_key in r.scan_iter("client:*")
-                if sum(
-                    1 for acc_key in r.scan_iter("account:*")
-                    if r.hget(acc_key, "client_id") == client_key.split(b":")[1] and float(r.hget(acc_key, "balance") or 0) > 50000
-                ) > 1
-            ),
-            "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000."
-        ),
+        # # 8. Klienci z >1 kontem i saldem > 50000
+        # (
+        #     lambda: sum(
+        #         1 for client_key in r.scan_iter("client:*")
+        #         if sum(
+        #             1 for acc_key in r.scan_iter("account:*")
+        #             if r.hget(acc_key, "client_id") == client_key.split(b":")[1] and float(r.hget(acc_key, "balance") or 0) > 50000
+        #         ) > 1
+        #     ),
+        #     "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000."
+        # ),
 
         # 9. Zliczenie transakcji credit dla klientów z ID 2000–3000
         (
@@ -116,8 +116,8 @@ def main():
 
     for fn, desc in queries:
         times = []
-        for i in range(100):
-            print(f"▶️ Iteracja {i+1}/100 - {desc}")
+        for i in range(10):
+            print(f"▶️ Iteracja {i+1}/10 - {desc}")
             _, elapsed = run_redis_query(fn)
             times.append(elapsed)
 

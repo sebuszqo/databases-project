@@ -19,6 +19,7 @@ def main():
     r = redis.Redis(**REDIS_CONFIG)
 
     updates = [
+
         # 1. UPDATE jednego klienta
         (
             lambda: r.hset("client:1", "first_name", "UpdatedName"),
@@ -34,12 +35,17 @@ def main():
         # 3. JOIN: zaktualizuj balance dla klientów z emailem kończącym się na @example.com
         (
             lambda: [
-                r.hincrbyfloat(account_key, "balance", 100)
+                (
+                    r.hincrbyfloat(account_key, "balance", 100)
+                    if (client_id := r.hget(account_key, "client_id")) and
+                    (email := r.hget(f"client:{client_id.decode()}", "email")) and
+                    email.decode().endswith("@example.com")
+                    else None
+                )
                 for account_key in r.scan_iter("account:*")
-                if r.hget(f"client:{r.hget(account_key, 'client_id').decode()}", "email").decode().endswith("@example.com")
             ],
             "UPDATE z JOIN"
-        ),
+        )
 
         # 4. UPDATE z agregacją – dodaj średni balans do account_id=1
         (
@@ -71,8 +77,8 @@ def main():
 
     for update_fn, description in updates:
         times = []
-        for i in range(100):
-            print(f"▶️ Iteracja {i+1}/100 - {description}")
+        for i in range(10):
+            print(f"▶️ Iteracja {i+1}/10 - {description}")
             elapsed_time = run_redis_update(update_fn)
             times.append(elapsed_time)
 

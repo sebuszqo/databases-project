@@ -13,31 +13,31 @@ def run_redis_delete(fn):
 
 def main():
     deletes = [
-        # 1. Usunięcie klienta o client_id = 1
-        (
-            lambda: r.delete("client:1"),
-            "1. Usunięcie klienta o client_id = 1."
-        ),
+        # # 1. Usunięcie klienta o client_id = 1
+        # (
+        #     lambda: r.delete("client:1"),
+        #     "1. Usunięcie klienta o client_id = 1."
+        # ),
 
-        # 2. Usunięcie transakcji powiązanych z klientem
-        (
-            lambda: [
-                r.delete(f"transactions:{r.hget(acc_key, 'account_id').decode()}")
-                for acc_key in r.scan_iter("account:*")
-                if r.hget(acc_key, "client_id") == b"1"
-            ],
-            "2. Usunięcie transakcji powiązanych z klientem:"
-        ),
+        # # 2. Usunięcie transakcji powiązanych z klientem
+        # (
+        #     lambda: [
+        #         r.delete(f"transactions:{r.hget(acc_key, 'account_id').decode()}")
+        #         for acc_key in r.scan_iter("account:*")
+        #         if r.hget(acc_key, "client_id") == b"1"
+        #     ],
+        #     "2. Usunięcie transakcji powiązanych z klientem:"
+        # ),
 
-        # 3. Usunięcie kont o saldzie powyżej 1000
-        (
-            lambda: [
-                r.delete(key.decode())
-                for key in r.scan_iter("account:*")
-                if float(r.hget(key, "balance") or 0) > 1000
-            ],
-            "3. Usunięcie kont o saldzie powyżej 1000."
-        ),
+        # # 3. Usunięcie kont o saldzie powyżej 1000
+        # (
+        #     lambda: [
+        #         r.delete(key.decode())
+        #         for key in r.scan_iter("account:*")
+        #         if float(r.hget(key, "balance") or 0) > 1000
+        #     ],
+        #     "3. Usunięcie kont o saldzie powyżej 1000."
+        # ),
 
         # 4. Usunięcie klientów bez transakcji
         (
@@ -56,8 +56,8 @@ def main():
 
     for delete_fn, desc in deletes:
         times = []
-        for i in range(100):
-            print(f"▶️ Iteracja {i+1}/100 - {desc}")
+        for i in range(10):
+            print(f"▶️ Iteracja {i+1}/10 - {desc}")
             elapsed = run_redis_delete(delete_fn)
             times.append(elapsed)
 
