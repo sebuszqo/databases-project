@@ -80,43 +80,43 @@ data_select = {
         "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
         "9. Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
         
-        "Pobranie 100 pierwszych rekordów z tabeli clients.",
-        "Pobranie danych klienta o client_id = 1 z tabeli clients.",
-        "Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
-        "Uzyskanie liczby wszystkich rekordów w tabeli clients.",
-        "Obliczenie średniego stanu konta w tabeli accounts.",
-        "Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
-        "Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
-        "Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
-        "Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
+        "1. Pobranie 100 pierwszych rekordów z tabeli clients.",
+        "2. Pobranie danych klienta o client_id = 1 z tabeli clients.",
+        "3. Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
+        "4. Uzyskanie liczby wszystkich rekordów w tabeli clients.",
+        "5. Obliczenie średniego stanu konta w tabeli accounts.",
+        "6. Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
+        "7. Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
+        "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
+        "9. Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
         
-        "Pobranie 100 pierwszych rekordów z tabeli clients.",
-        "Pobranie danych klienta o client_id = 1 z tabeli clients.",
-        "Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
-        "Uzyskanie liczby wszystkich rekordów w tabeli clients.",
-        "Obliczenie średniego stanu konta w tabeli accounts.",
-        "Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
-        "Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
-        "Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
-        "Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
+        "1. Pobranie 100 pierwszych rekordów z tabeli clients.",
+        "2. Pobranie danych klienta o client_id = 1 z tabeli clients.",
+        "3. Pobranie imienia i nazwiska klienta oraz numeru konta z tabel clients i accounts.",
+        "4. Uzyskanie liczby wszystkich rekordów w tabeli clients.",
+        "5. Obliczenie średniego stanu konta w tabeli accounts.",
+        "6. Pobranie klientów, których saldo jest większe niż 1000, posortowanych malejąco po saldzie.",
+        "7. Pobranie danych transakcji z dnia 2023-01-01 i późniejszych, posortowanych według daty transakcji.",
+        "8. Zliczenie klientów posiadających więcej niż jedno konto i saldo powyżej 50000.",
+        "9. Zliczenie transakcji dla klientów o client_id w zakresie od 2000 do 3000.",
     ],
     "avg_time": [
         0.0006, 0.0003, 0.0728, 0.0022, 0.0073, 0.1114, 0.6821, 0.1279, 0.1062,
         0.0004, 0.0003, 0.1340, 0.0051, 0.0117, 0.2480, 1.5113, 0.1282, 0.0123,
         0.0007, 0.0007, 0.0005, 0.0005, 0.0004, 0.0006, 0.0006,  0.0006, 0.0005,  #mongo
-        0.0491,  0.0009, 227.5415, 32.9869, 119.9011, 257.7076, 366.1127, inf, inf, #redis
+        0.0491,  0.0009, 227.5415, 32.9869, 119.9011, 257.7076, 366.1127, 1000, 1000, #redis
     ],
     "min_time": [
         0.0003, 0.0002, 0.0683, 0.0020, 0.0067, 0.1061, 0.4377, 0.1116, 0.0961,
         0.0002, 0.0002, 0.1246, 0.0048, 0.0111, 0.2340, 1.3944, 0.1189, 0.0103,
         0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,  0.0000, 0.0000, #mongo
-        0.0404, 0.0000, 213.8272, 28.4008, 116.9813, 252.6860, 358.8349,  inf, inf, #redis
+        0.0404, 0.0000, 213.8272, 28.4008, 116.9813, 252.6860, 358.8349,  1000, 1000, #redis
      ],
     "max_time": [
         0.0038, 0.0016, 0.1030, 0.0051, 0.0148, 0.1430, 1.1679, 0.2877, 0.1533, 
         0.0082, 0.0011, 0.2609, 0.0059, 0.0208, 0.2936, 1.8861, 0.2068, 0.0267,
         0.0340, 0.0020, 0.0010, 0.0015, 0.0010, 0.0017, 0.0021, 0.0015, 0.0015, #mongo
-        0.0797, 0.0107, 263.8153, 37.7883, 135.6004, 260.1880, 382.4257, inf, inf, #redis
+        0.0797, 0.0107, 263.8153, 37.7883, 135.6004, 260.1880, 382.4257, 1000, 1000, #redis
     ]
 }
 
@@ -149,29 +149,29 @@ data_update = {
         "5. Aktualizacja adresu e-mail na podstawie subzapytania z transakcjami i saldem powyżej 1000.",
         
         # redis
-         "1. Aktualizacja jednego pola dla klienta o konkretnym client_id.",
-        "2. Zmiana first_name dla wielu klientów.",
-        "3. Aktualizacja salda konta z użyciem JOIN z tabelą clients.",
-        "4. Aktualizacja salda konta na podstawie średniego salda wszystkich kont.",
-        "5. Aktualizacja adresu e-mail na podstawie subzapytania z transakcjami i saldem powyżej 1000.",
+        #  "1. Aktualizacja jednego pola dla klienta o konkretnym client_id.",
+        # "2. Zmiana first_name dla wielu klientów.",
+        # "3. Aktualizacja salda konta z użyciem JOIN z tabelą clients.",
+        # "4. Aktualizacja salda konta na podstawie średniego salda wszystkich kont.",
+        # "5. Aktualizacja adresu e-mail na podstawie subzapytania z transakcjami i saldem powyżej 1000.",
     ],
     "avg_time": [
         0.0009, 0.0008, 0.3727, 0.0941, 0.7795, 
         0.0007, 0.0006, 0.1864,  0.0195, 0.3281,
         0.0005, 0.0006, 0.0004, 0.0010, 0.0005, # monngo
-        0.0015, 0.0051, 172.8585, 138.3925, 268.2432,  # redis
+        # 0.0015, 0.0051, 172.8585, 138.3925, 268.2432,  # redis
     ],
     "min_time": [
         0.0007,  0.0006, 0.3195, 0.0842, 0.4919,
         0.0005, 0.0005, 0.1667, 0.0183, 0.2962,
         0.0000, 0.0000, 0.0000, 0.0000, 0.0000, # mongo
-        0.0005, 0.0031, 148.7823, 123.0081, 218.6192,  # redis
+        # 0.0005, 0.0031, 148.7823, 123.0081, 218.6192,  # redis
     ],
     "max_time": [
         0.0076, 0.0021, 0.5581, 0.1234, 1.1961,
         0.0037, 0.0018, 0.2667, 0.0346, 0.5525,
         0.0061, 0.0015, 0.0015, 0.0030, 0.0015, # mongo
-        0.0180, 0.0159, 217.6070, 152.3891, 332.0843,  # redis
+        # 0.0180, 0.0159, 217.6070, 152.3891, 332.0843,  # redis
     ]
 }
 
@@ -180,7 +180,7 @@ data_delete = {
         "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", "PostgreSQL", 
         "MariaDB", "MariaDB", "MariaDB", "MariaDB", "MariaDB",
         "MongoDB", "MongoDB", "MongoDB", "MongoDB", "MongoDB", 
-        "Redis", "Redis", "Redis", "Redis", "Redis",
+        # "Redis", "Redis", "Redis", "Redis", "Redis",
     ],
     "query": [
         "1. Usunięcie klienta o client_id = 1.",
@@ -199,30 +199,30 @@ data_delete = {
         "3. Usunięcie kont o saldzie powyżej 1000.",
         "4. Usunięcie klientów bez transakcji.",
         
-        # redis
-        "1. Usunięcie klienta o client_id = 1.",
-        "2. Usunięcie transakcji powiązanych z klientem:",
-        "3. Usunięcie kont o saldzie powyżej 1000.",
-        "4. Usunięcie klientów bez transakcji.",
+        # # redis
+        # "1. Usunięcie klienta o client_id = 1.",
+        # "2. Usunięcie transakcji powiązanych z klientem:",
+        # "3. Usunięcie kont o saldzie powyżej 1000.",
+        # "4. Usunięcie klientów bez transakcji.",
     ],
     "avg_time": [
         
         # 0.0007,
         0.0015, 0.1682, 4.0429, 0.0513,
         0.0007, 0.0004, 0.0004, 0.0004,# mongo
-        0.0009, 89.4861, 35.7076, inf,  # redis
+        # 0.0009, 89.4861, 35.7076, 100,  # redis
     ],
     "min_time": [
         # 0.0005,
         0.0009, 0.1625, 3.6912, 0.0483,
         0.0000, 0.0000, 0.0000, 0.0000,# mongo
-        0.0000, 85.6027, 22.5204, inf,  # redis
+        # 0.0000, 85.6027, 22.5204, 100,  # redis
     ],
     "max_time": [
         # 0.0
         0.0036, 0.2158, 5.5504, 0.0768,
         0.0250, 0.0015, 0.0015, 0.0035, # mongo
-        0.0141, 92.7217, 140.6088, inf,  # redis
+        0.0141, 92.7217, 140.6088, 100,  # redis
     ]
 }
 
